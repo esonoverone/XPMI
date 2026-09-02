@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XPMI — Strategic Intelligence for High-Stakes Decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abel&family=Inter:wght@300;400;500;600;700&family=Vazirmatn:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+:root{
+--bg:#06090f;--bg-s:#0d1219;--bg-e:#131a24;--bg-card:#161e2b;
+--border:rgba(255,255,255,.06);--border-h:rgba(255,255,255,.12);
+--text-1:rgba(255,255,255,.93);--text-2:rgba(255,255,255,.58);--text-3:rgba(255,255,255,.32);
+--accent:#3b82f6;--cta:#f59e0b;--cta-h:#fbbf24;
+--red:#ef4444;--green:#22c55e;--yellow:#eab308;--blue:#3b82f6;--purple:#a855f7;
+--font:'Inter',sans-serif;--fa:'Vazirmatn',sans-serif;--abel:'Abel',sans-serif;--mono:'Space Mono',monospace;
+--max:1140px;--py:7rem;
+}
+body{background:var(--bg);color:var(--text-1);font-family:var(--font);font-size:1rem;line-height:1.65;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.fa{font-family:var(--fa);direction:rtl;text-align:right}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
+section{padding:var(--py) 0}
+h1{font-family:var(--abel);font-size:clamp(2.2rem,5vw,3.6rem);font-weight:400;line-height:1.12;text-align:center}
+h2{font-family:var(--abel);font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:400;line-height:1.25;text-align:center}
+h3{font-family:var(--abel);font-size:1.1rem;font-weight:400;line-height:1.35}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--text-3);text-transform:uppercase;margin-bottom:.75rem;text-align:center}
+.sub{font-size:1.05rem;color:var(--text-2);line-height:1.7;max-width:640px;margin:1rem auto 0;text-align:center}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.8rem;border-radius:6px;font-weight:600;font-size:.9rem;border:none;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--cta);color:#000}
+.btn-primary:hover{background:var(--cta-h);box-shadow:0 0 24px rgba(245,158,11,.25)}
+.btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--border-h)}
+.btn-ghost:hover{color:var(--text-1);border-color:rgba(255,255,255,.25)}
+.divider{height:1px;background:var(--border);margin:0 auto;max-width:var(--max)}
+h1 span{color:var(--cta)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(59,130,246,.07) 0%,transparent 70%);pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:780px;margin:0 auto;text-align:center}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:2rem}
+
+/* PUBLIC SIGNALS */
+.ps{background:var(--bg-s)}
+.ps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin-top:2.5rem}
+.ps-card{padding:1rem;border:1px solid var(--border);border-radius:6px;background:var(--bg)}
+.ps-card h3{font-size:.85rem;color:var(--cta);margin-bottom:.3rem}
+.ps-card p{font-size:.75rem;color:var(--text-3);line-height:1.45}
+.ps-golden{margin-top:2rem;text-align:center;font-size:.95rem;color:var(--text-2);font-style:italic;max-width:700px;margin-left:auto;margin-right:auto;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem 0}
+
+/* PERSPECTIVES */
+.perspectives{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
+.persp-card{padding:1.5rem;border:1px solid var(--border);border-radius:8px;background:var(--bg-s)}
+.persp-num{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.1em;margin-bottom:.6rem}
+.persp-card p{font-size:.82rem;color:var(--text-2);line-height:1.55;font-family:var(--fa);direction:rtl;text-align:right}
+
+/* OUTPUT */
+.output{background:var(--bg-s)}
+.decisions{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:2.5rem}
+.dec-card{text-align:center;padding:1.5rem .75rem;border-radius:8px;border:1px solid var(--border);background:var(--bg);transition:transform .3s}
+.dec-card:hover{transform:translateY(-3px)}
+.dec-dot{width:12px;height:12px;border-radius:50%;margin:0 auto .6rem}
+.dec-card p{font-size:.75rem;color:var(--text-3)}
+
+/* ICP */
+.icp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2.5rem}
+.icp-card{padding:1.5rem;border:1px solid var(--border);border-radius:8px;background:var(--bg-s)}
+.icp-card p{font-size:.85rem;color:var(--text-2);line-height:1.5;font-family:var(--fa);direction:rtl;text-align:right}
+.icp-card:last-child{grid-column:1/-1}
+
+/* GTM */
+.gtm{background:var(--bg-s)}
+.gtm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
+.gtm-card{padding:1.75rem;border-radius:8px;border:1px solid var(--border);background:var(--bg)}
+.gtm-tag{display:inline-block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;padding:.3rem .7rem;border-radius:4px;margin-bottom:.75rem;font-weight:700}
+.gtm-card .gtm-sub{font-size:.8rem;color:var(--text-3);margin-bottom:.5rem}
+.gtm-card p{font-size:.85rem;color:var(--text-2);line-height:1.5}
+
+/* CASE LAB */
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+.sc-box{padding:1.5rem;border:1px solid var(--border);border-radius:8px;background:var(--bg-s)}
+.sc-box h3{font-size:1.05rem;margin-bottom:.35rem}
+.sc-industry{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.08em;margin-bottom:.4rem}
+.sc-decision{font-size:.8rem;color:var(--text-2);margin-bottom:.75rem;line-height:1.5}
+.sc-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.75rem}
+.sc-tag{font-size:.68rem;color:var(--text-3);padding:.2rem .5rem;border:1px solid var(--border);border-radius:3px}
+.sc-tease{font-size:.75rem;color:var(--text-3);font-style:italic;margin-bottom:.75rem}
+.sc-unlocked{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;border-radius:5px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);font-size:.75rem;color:var(--green);margin-bottom:.5rem}
+.sc-coming{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;border-radius:5px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);font-size:.75rem;color:var(--cta);margin-bottom:.5rem}
+.sc-links{display:flex;gap:.4rem;flex-wrap:wrap}
+.sc-links .btn{font-size:.7rem;padding:.35rem .75rem}
+
+/* NOT REPORT */
+.not-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:2.5rem;align-items:start}
+.not-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.not-list li{font-size:.88rem;color:var(--text-3);display:flex;align-items:center;gap:.5rem}
+.not-list li .x{color:var(--red);font-weight:700}
+.instead h3{font-size:1.5rem;margin-bottom:.75rem;background:linear-gradient(135deg,var(--accent),var(--cta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:var(--abel)}
+.instead p{color:var(--text-2);font-size:.9rem}
+
+/* COLLAB */
+.collab{background:var(--bg-s)}
+.collab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
+.collab-card{padding:1.5rem;border:1px solid var(--border);border-radius:8px;background:var(--bg)}
+.collab-card .cn{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.1em;margin-bottom:.5rem}
+.collab-card p{font-size:.85rem;color:var(--text-2);line-height:1.5}
+
+/* SESSIONS */
+.sessions-track{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:2.5rem;position:relative}
+.sessions-track::before{content:'';position:absolute;top:2rem;left:0;right:0;height:1px;background:var(--border)}
+.sess{text-align:center;position:relative;padding:0 .5rem}
+.sess-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin:0 auto 1rem;position:relative;z-index:1}
+.sess-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.08em;margin-bottom:.4rem}
+.sess p{font-size:.78rem;color:var(--text-2)}
+
+/* CTA FORM */
+.final-cta{text-align:center;padding:8rem 1.5rem;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 60%,rgba(245,158,11,.06) 0%,transparent 70%);pointer-events:none}
+.sub-fa{font-family:var(--fa);direction:rtl;font-size:.95rem;color:var(--text-2);margin:1rem auto 0;max-width:520px;text-align:center}
+.cta-form{max-width:480px;margin:2rem auto 0;display:flex;flex-direction:column;gap:.65rem;text-align:right}
+.cta-input{background:var(--bg-s);border:1px solid var(--border-h);border-radius:6px;padding:.7rem .9rem;color:var(--text-1);font-size:.85rem;font-family:var(--fa);width:100%;outline:none;transition:border-color .2s}
+.cta-input:focus{border-color:var(--cta)}
+.cta-input::placeholder{color:var(--text-3)}
+select.cta-input{appearance:none;cursor:pointer}
+textarea.cta-input{resize:vertical;min-height:60px}
+.form-success{padding:1.25rem;border:1px solid rgba(34,197,94,.3);border-radius:8px;background:rgba(34,197,94,.06);color:var(--green);text-align:center;font-family:var(--fa);font-size:.9rem;max-width:480px;margin:2rem auto 0}
+.final-badge{margin-top:1.25rem;font-size:.75rem;color:var(--text-3)}
+
+/* FOOTER */
+footer{padding:3rem 0;text-align:center;border-top:1px solid var(--border)}
+footer .logo{font-family:var(--abel);font-weight:400;font-size:1.2rem;letter-spacing:.15em;margin-bottom:.4rem}
+footer p{font-size:.75rem;color:var(--text-3);line-height:1.7}
+.footer-links{margin-top:.6rem;font-size:.75rem;color:var(--text-3);display:flex;align-items:center;justify-content:center;gap:.4rem;flex-wrap:wrap}
+.footer-links a{color:var(--accent);transition:color .2s}
+.footer-links a:hover{color:var(--cta)}
+footer .tagline{font-style:italic;color:var(--text-3);font-size:.78rem;margin-top:.6rem}
+
+
+/* INTELLIGENCE LOOP */
+.loop-track{display:flex;align-items:flex-start;justify-content:center;gap:.5rem;margin-top:2.5rem;flex-wrap:wrap}
+.loop-step{flex:1;min-width:180px;max-width:240px;text-align:center;padding:1.25rem;border:1px solid var(--border);border-radius:8px;background:var(--bg-s)}
+.loop-step .ln{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.1em;margin-bottom:.4rem}
+.loop-step p{font-size:.75rem;color:var(--text-2);line-height:1.45;margin-top:.3rem}
+.loop-arrow{color:var(--text-3);font-size:1.2rem;align-self:center;padding-top:.5rem}
+@media(max-width:900px){.loop-arrow{display:none}.loop-track{flex-direction:column;align-items:center}.loop-step{max-width:100%;width:100%}}
+
+/* BMI */
+.bmi{background:var(--bg-s)}
+.bmi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:2rem}
+.bmi-card{padding:1.25rem;border:1px solid var(--border);border-radius:6px;background:var(--bg)}
+.bmi-card h3{font-size:.9rem;margin-bottom:.25rem}
+.bmi-card p{font-size:.75rem;color:var(--text-3)}
+.mirror-box{margin-top:2rem;padding:2rem;border:1px solid var(--border);border-radius:8px;background:var(--bg)}
+.mirror-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;max-width:500px;margin:0 auto}
+.mirror-grid div{display:flex;align-items:center;justify-content:center;gap:.5rem}
+.ml{font-size:.85rem;color:var(--text-2);text-align:right;min-width:80px}
+.ma{color:var(--cta);font-family:var(--mono)}
+.mr{font-size:.85rem;color:var(--accent);font-weight:600;min-width:80px}
+@media(max-width:540px){.bmi-grid{grid-template-columns:1fr}.mirror-grid{grid-template-columns:1fr}}
+
+/* PI FORM */
+.pi-form{max-width:520px;margin:1.5rem auto 0;display:flex;flex-direction:column;gap:.6rem}
+.pi-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media(max-width:540px){.pi-row{grid-template-columns:1fr}}
+
+
+/* METHODOLOGY */
+.method{background:var(--bg-s)}
+.method-flow{display:flex;flex-direction:column;align-items:center;gap:.5rem;margin:2.5rem 0}
+.mf-step{width:100%;max-width:600px;padding:1.5rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);text-align:center}
+.mf-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.12em;margin-bottom:.5rem}
+.mf-step h3{margin-bottom:.5rem;color:var(--cta)}
+.mf-step p{font-size:.85rem;color:var(--text-2);line-height:1.7;direction:rtl;text-align:center}
+.mf-arrow{color:var(--text-3);font-size:1.1rem}
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3rem}
+.method-card{padding:1.5rem;border:1px solid var(--border);border-radius:8px;background:var(--bg)}
+.mc-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;color:var(--accent);margin-bottom:.5rem;text-transform:uppercase}
+.method-card h3{margin-bottom:.5rem;font-size:1rem}
+.method-card p{font-size:.82rem;color:var(--text-2);line-height:1.7;direction:rtl;text-align:right}
+.method-card strong{color:var(--cta);font-weight:600}
+.method-kpi{margin-top:3rem;padding:2rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);text-align:center}
+.mk-headline{font-family:var(--abel);font-size:1.25rem;color:var(--text-1);margin:.75rem 0 1.5rem;line-height:1.5}
+.mk-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem}
+.mk-item{padding:.9rem .5rem;border:1px solid var(--border);border-radius:6px;display:flex;flex-direction:column;gap:.3rem}
+.mk-item strong{font-family:var(--abel);font-size:.85rem;color:var(--cta);font-weight:400}
+.mk-item span{font-size:.7rem;color:var(--text-3);direction:rtl}
+.method-golden{margin-top:2.5rem;text-align:center;font-size:1rem;color:var(--text-2);font-style:italic;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem 0}
+@media(max-width:900px){.method-grid{grid-template-columns:1fr}.mk-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.mk-grid{grid-template-columns:1fr}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+:root{--py:4.5rem}
+.perspectives,.gtm-grid,.collab-grid,.ps-grid{grid-template-columns:1fr 1fr}
+.decisions{grid-template-columns:repeat(3,1fr)}
+.not-grid,.icp-grid{grid-template-columns:1fr}
+.icp-card:last-child{grid-column:auto}
+.sessions-track{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.sessions-track::before{display:none}
+.cases-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:540px){
+.decisions{grid-template-columns:1fr 1fr}
+.sessions-track,.perspectives,.ps-grid{grid-template-columns:1fr}
+.cases-grid{grid-template-columns:1fr}
+.hero-ctas{flex-direction:column}
+.hero-ctas .btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+<div class="wrap hero-inner">
+<h1>Before You Make the Decision,<br><span>Stress-Test It.</span></h1>
+<p class="sub">XPMI is a Strategic Intelligence Service for high-stakes business decisions. We analyze your business reality, simulate failure, model possible futures, identify capability gaps, and turn uncertainty into an executable decision.</p>
+<div class="hero-ctas">
+<a href="#contact" class="btn btn-primary">Stress-Test My Decision</a>
+<a href="#caselab" class="btn btn-ghost">Explore XPMI Cases</a>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- PUBLIC SIGNALS -->
+<section class="ps" id="signals">
+<div class="wrap">
+<h2>We Don't Start With Your Data.<br>We Start With Your Reality.</h2>
+<p class="sub fa" style="direction:rtl;text-align:center">بیشتر شرکت‌ها فکر می‌کنند برای تحلیل استراتژیک باید ابتدا تمام داده‌های محرمانه را در اختیار مشاور قرار دهند. XPMI برعکس عمل می‌کند. ما ابتدا واقعیت کسب‌وکار را از روی سیگنال‌های عمومی بازسازی می‌کنیم؛ سپس فقط همان داده‌هایی را درخواست می‌کنیم که واقعاً تصمیم را تغییر می‌دهند.</p>
+<div class="ps-grid">
+<div class="ps-card"><h3>Product</h3><p>Website, UX, pricing, onboarding</p></div>
+<div class="ps-card"><h3>Market Behavior</h3><p>Reviews, user feedback, app stores</p></div>
+<div class="ps-card"><h3>Hiring Signals</h3><p>Job openings, team structure</p></div>
+<div class="ps-card"><h3>Technology</h3><p>APIs, infrastructure, stack</p></div>
+<div class="ps-card"><h3>SEO & Growth</h3><p>Landing pages, search intent</p></div>
+<div class="ps-card"><h3>Competitors</h3><p>Product changes & positioning</p></div>
+<div class="ps-card"><h3>Content</h3><p>Blog, LinkedIn, social media</p></div>
+<div class="ps-card"><h3>Partnerships</h3><p>News, collaborations</p></div>
+<div class="ps-card"><h3>Regulation</h3><p>Licenses & compliance</p></div>
+<div class="ps-card"><h3>Economics</h3><p>Pricing & revenue model</p></div>
+</div>
+<p class="ps-golden">Public Signals are enough to reconstruct reality.<br>They are not enough to measure economics.</p>
+</div>
+</section>
+<div class="divider"></div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ METHODOLOGY ═══════════════ -->
+<section class="method" id="methodology">
+<div class="wrap">
+<h2>How XPMI Produces Intelligence</h2>
+<p class="sub">هر تحلیل XPMI از یک مسیر مشخص عبور می‌کند — از سیگنال عمومی تا سؤال قابل تصمیم.</p>
+
+<div class="method-flow">
+  <div class="mf-step">
+    <div class="mf-num">01</div>
+    <h3>Public Signals</h3>
+    <p class="fa">ده دسته سیگنال قابل مشاهده از بیرون — محصول، رفتار بازار، استخدام، تکنولوژی، سئو، رقبا، محتوا، مشارکت‌ها، رگولاتوری، اقتصاد. بدون نیاز به داده محرمانه.</p>
+  </div>
+  <div class="mf-arrow">↓</div>
+  <div class="mf-step">
+    <div class="mf-num">02</div>
+    <h3>Case Report</h3>
+    <p class="fa">بازسازی واقعیت کسب‌وکار در هفت لایه: Reality، Risk، Future Scenarios، Capability Gaps، Execution Architecture، Strategic Decision. هر ادعا برچسب معرفتی دارد.</p>
+  </div>
+  <div class="mf-arrow">↓</div>
+  <div class="mf-step">
+    <div class="mf-num">03</div>
+    <h3>Micro-Intel</h3>
+    <p class="fa">از دل Case Report، یک سؤال استخراج می‌شود — سؤالی که پاسخش می‌تواند تصمیم را عوض کند و شرکت احتمالاً جوابش را نمی‌داند.</p>
+  </div>
+  <div class="mf-arrow">↓</div>
+  <div class="mf-step">
+    <div class="mf-num">04</div>
+    <h3>Private Validation</h3>
+    <p class="fa">فقط ۵ تا ۱۵ شاخص کلیدی — نه ۲۰۰ جدول. آن اعدادی که واقعاً فرضیه را رد یا تأیید می‌کنند.</p>
+  </div>
+</div>
+
+<div class="method-grid">
+  <div class="method-card">
+    <div class="mc-tag">Case Report</div>
+    <h3>Evidence + Analysis</h3>
+    <p class="fa">تحلیل کامل هفت‌بخشی از واقعیت یک کسب‌وکار، بر پایه شواهد عمومی. پاسخ به این سؤال: <strong>XPMI چه چیزی را تحلیل کرد؟</strong></p>
+  </div>
+  <div class="method-card">
+    <div class="mc-tag">Micro-Intel</div>
+    <h3>Question + Tension</h3>
+    <p class="fa">یک سؤال، نه یک خلاصه. هدفش این است که خواننده فکر کند: <strong>«صبر کن — ما جواب این را می‌دانیم؟»</strong></p>
+  </div>
+  <div class="method-card">
+    <div class="mc-tag">Epistemic Labels</div>
+    <h3>FACT / INFERENCE / HYPOTHESIS / UNKNOWN</h3>
+    <p class="fa">هیچ استنباطی به‌عنوان حقیقت ارائه نمی‌شود. هیچ فرضیه‌ای به‌عنوان داده شرکت جا نمی‌زند. جایی که شواهد نیست، <strong>UNKNOWN</strong> می‌ماند.</p>
+  </div>
+  <div class="method-card">
+    <div class="mc-tag">Pattern Library</div>
+    <h3>PAUSED</h3>
+    <p class="fa">الگو زمانی الگو است که چند Case مستقل آن را تأیید کنند. تا آن زمان، فقط Observation است. XPMI الگوی تأییدنشده منتشر نمی‌کند.</p>
+  </div>
+</div>
+
+<div class="method-kpi">
+  <div class="eyebrow">The 5 KPI Principle</div>
+  <p class="mk-headline">We don't ask for all your data.<br>We ask for the few numbers that change the decision.</p>
+  <div class="mk-grid">
+    <div class="mk-item"><strong>Repeat Rate</strong><span class="fa">آیا مشتری برمی‌گردد؟</span></div>
+    <div class="mk-item"><strong>Conversion</strong><span class="fa">اصطکاک واقعی کجاست؟</span></div>
+    <div class="mk-item"><strong>Retention</strong><span class="fa">ارزش بلندمدت چقدر است؟</span></div>
+    <div class="mk-item"><strong>Margin</strong><span class="fa">اقتصاد مدل سالم است؟</span></div>
+    <div class="mk-item"><strong>+1 Custom</strong><span class="fa">بسته به صنعت شما</span></div>
+  </div>
+</div>
+
+<p class="method-golden">Public Signals are enough to reconstruct reality.<br>They are not enough to measure economics.</p>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- PAIN -->
+<section id="pain">
+<div class="wrap">
+<h2>Some business decisions are too expensive<br>to make on intuition.</h2>
+<p class="sub fa" style="direction:rtl;text-align:center">شرکت‌ها هر روز تصمیم‌هایی می‌گیرند که ممکن است میلیاردها تومان سرمایه را جابه‌جا کنند، مسیر یک Business Line را تغییر دهند، یک بازار جدید را باز یا بسته کنند، و سال‌ها زمان و منابع را قفل کنند. اما سؤال اصلی این است: چقدر از تصمیمی که می‌گیرید مطمئن هستید؟</p>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- APPROACH -->
+<section id="approach">
+<div class="wrap">
+<h2>XPMI doesn't tell you what you want to hear.<br>It stress-tests what you're about to do.</h2>
+<div class="perspectives">
+<div class="persp-card"><div class="persp-num">01 — REALITY</div><h3>What's actually happening?</h3><p>واقعاً چه اتفاقی در کسب‌وکار و بازار شما در حال رخ دادن است؟</p></div>
+<div class="persp-card"><div class="persp-num">02 — RISK</div><h3>What could break it?</h3><p>چه چیزی می‌تواند این تصمیم را شکست دهد؟</p></div>
+<div class="persp-card"><div class="persp-num">03 — FUTURE</div><h3>What if conditions change?</h3><p>اگر شرایط تغییر کند چه اتفاقی می‌افتد؟</p></div>
+<div class="persp-card"><div class="persp-num">04 — CAPABILITY</div><h3>What's missing?</h3><p>برای اجرای این تصمیم چه چیزهایی کم دارید؟</p></div>
+<div class="persp-card"><div class="persp-num">05 — EXECUTION</div><h3>How should it be done?</h3><p>اگر تصمیم درست باشد، دقیقاً چگونه باید اجرا شود؟</p></div>
+<div class="persp-card"><div class="persp-num">06 — MEMORY</div><h3>What patterns match?</h3><p>این تصمیم چه شباهتی به الگوها و Caseهای قبلی دارد؟</p></div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- OUTPUT -->
+<section class="output" id="output">
+<div class="wrap">
+<h2>You don't get a report.<br>You get a decision architecture.</h2>
+<div class="decisions">
+<div class="dec-card"><div class="dec-dot" style="background:var(--green)"></div><h3>GO</h3><p>Proceed.</p></div>
+<div class="dec-card"><div class="dec-dot" style="background:var(--yellow)"></div><h3>CONDITIONAL GO</h3><p>Under specific conditions.</p></div>
+<div class="dec-card"><div class="dec-dot" style="background:var(--red)"></div><h3>NO-GO</h3><p>Don't proceed.</p></div>
+<div class="dec-card"><div class="dec-dot" style="background:var(--blue)"></div><h3>WAIT</h3><p>Not yet.</p></div>
+<div class="dec-card"><div class="dec-dot" style="background:var(--purple)"></div><h3>PARTNER / ACQUIRE</h3><p>Not alone.</p></div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- ICP -->
+<section id="who">
+<div class="wrap">
+<h2>For companies facing decisions<br>that actually matter.</h2>
+<div class="icp-grid">
+<div class="icp-card"><h3>Strategic Challenger</h3><p>«ما می‌خواهیم سهم بازار Leader را بگیریم.»</p></div>
+<div class="icp-card"><h3>Expansion Player</h3><p>«می‌خواهیم وارد یک بازار جدید شویم.»</p></div>
+<div class="icp-card"><h3>Transformation Under Pressure</h3><p>«مدل فعلی هنوز کار می‌کند، ولی می‌دانیم کافی نیست.»</p></div>
+<div class="icp-card"><h3>Investment / M&A Decision Maker</h3><p>«می‌خواهیم روی این شرکت / بازار / پروژه سرمایه‌گذاری کنیم.»</p></div>
+<div class="icp-card"><h3>Founder / CEO</h3><p>«بین چند مسیر جدی گیر کرده‌ایم و هزینه انتخاب اشتباه بالاست.»</p></div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- GTM -->
+<section class="gtm" id="gtm">
+<div class="wrap">
+<h2>Three ways the market meets XPMI.</h2>
+<div class="gtm-grid">
+<div class="gtm-card"><div class="gtm-tag" style="background:rgba(239,68,68,.12);color:var(--red)">A — Challenger</div><div class="gtm-sub">Revenue + Case</div><p>One decision. One high-stakes problem. One XPMI stress test.</p></div>
+<div class="gtm-card"><div class="gtm-tag" style="background:rgba(245,158,11,.12);color:var(--cta)">B — Strategic Advisors</div><div class="gtm-sub">Credibility + Distribution</div><p>XPMI sits alongside consultants, advisors, and venture builders as their intelligence layer.</p></div>
+<div class="gtm-card"><div class="gtm-tag" style="background:rgba(34,197,94,.12);color:var(--green)">C — Market Leaders</div><div class="gtm-sub">Validation + Reputation</div><p>We engage leaders on their most important decisions. Not to sell a tool. To challenge assumptions.</p></div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<div class="divider"></div>
+
+<!-- INTELLIGENCE LOOP -->
+<section id="loop">
+<div class="wrap">
+<h2>From Public Intelligence to Strategic Decision</h2>
+<div class="loop-track">
+<div class="loop-step"><div class="ln">01</div><h3>Public Intelligence</h3><p class="fa" style="direction:rtl;text-align:center">بازسازی واقعیت از سیگنال‌های عمومی — بدون نیاز به داده محرمانه</p></div>
+<div class="loop-arrow">→</div>
+<div class="loop-step"><div class="ln">02</div><h3>XPMI-GR</h3><p>Reality Map · Risk Signals · Unknown Unknowns · Strategic Questions</p></div>
+<div class="loop-arrow">→</div>
+<div class="loop-step"><div class="ln">03</div><h3>Private Validation</h3><p>5–15 decision-critical KPIs</p></div>
+<div class="loop-arrow">→</div>
+<div class="loop-step"><div class="ln">04</div><h3>Strategic Intelligence</h3><p>Decision Architecture · Deployment · Execution</p></div>
+</div>
+<p class="sub" style="margin-top:1.5rem;font-style:italic">We don't ask for all your data. We ask for the few numbers that change the decision.</p>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- BUSINESS MODEL INTELLIGENCE -->
+<section class="bmi" id="bmi">
+<div class="wrap">
+<h2>Business Model Intelligence</h2>
+<p class="sub">XPMI does not use the same lens for every business. The business model changes the questions, risks, and opportunities we investigate.</p>
+<div class="bmi-grid">
+<div class="bmi-card"><h3>Commerce & Marketplace</h3><p>Digikala · Divar · Torob · Titana</p></div>
+<div class="bmi-card"><h3>Attention & Media</h3><p>Filimo · Aparat</p></div>
+<div class="bmi-card"><h3>Financial / Risk</h3><p>Azki · DigiPay · Tara · SnappPay</p></div>
+<div class="bmi-card"><h3>Beauty / Vertical Commerce</h3><p>Khanoumi · FreshFace</p></div>
+<div class="bmi-card"><h3>Travel / Decision Platform</h3><p>Alibaba</p></div>
+<div class="bmi-card"><h3>Behavioral Infrastructure</h3><p>XP Protocol</p></div>
+</div>
+<div class="mirror-box">
+<div class="eyebrow">Business Model Mirror</div>
+<h3 style="text-align:center;margin-bottom:.75rem">What is the business really selling beneath the visible product?</h3>
+<div class="mirror-grid">
+<div><span class="ml">Product</span><span class="ma">→</span><span class="mr">Transaction</span></div>
+<div><span class="ml">Platform</span><span class="ma">→</span><span class="mr">Matching</span></div>
+<div><span class="ml">Data</span><span class="ma">→</span><span class="mr">Intelligence</span></div>
+<div><span class="ml">Intelligence</span><span class="ma">→</span><span class="mr">Decision</span></div>
+</div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- CASE LAB -->
+<section id="caselab">
+<div class="wrap">
+<h2>XPMI Market Stress Tests</h2>
+<p class="sub">What happens when we stress-test market leaders and challengers?</p>
+<div class="cases-grid">
+
+<div class="sc-box"><div class="sc-industry">FinTech / BNPL</div><h3>DigiPay</h3><p class="sc-decision">Can a challenger take meaningful share from the payment market leader?</p><div class="sc-tags"><span class="sc-tag">Distribution</span><span class="sc-tag">Switching</span><span class="sc-tag">Pricing</span><span class="sc-tag">Credit Risk</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/digipay/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">FinTech / BNPL</div><h3>Tara</h3><p class="sc-decision">Can a BNPL player without proprietary data build a defensible position?</p><div class="sc-tags"><span class="sc-tag">Bureau Reliance</span><span class="sc-tag">Data Gap</span><span class="sc-tag">Credit Risk</span><span class="sc-tag">Moat</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/tara/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">FinTech / BNPL</div><h3>SnappPay</h3><p class="sc-decision">Does ecosystem dependency create an unbreakable advantage — or a hidden fragility?</p><div class="sc-tags"><span class="sc-tag">Ecosystem Lock-in</span><span class="sc-tag">Adjacent Signal</span><span class="sc-tag">Data Breach</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/snapp-pay/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">E-Commerce</div><h3>Digikala</h3><p class="sc-decision">When a platform controls demand, supply, search, credit, ads and logistics — is the real product still a store?</p><div class="sc-tags"><span class="sc-tag">Flywheel</span><span class="sc-tag">Seller Network</span><span class="sc-tag">Commerce Intelligence</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/digikala/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Classifieds / Marketplace</div><h3>Divar</h3><p class="sc-decision">Is the real product discovery — or the trust layer that makes real-world transactions possible?</p><div class="sc-tags"><span class="sc-tag">Trust</span><span class="sc-tag">Liquidity</span><span class="sc-tag">Local Intelligence</span><span class="sc-tag">Offline Outcome</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/divar/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Travel / OTA</div><h3>Alibaba</h3><p class="sc-decision">Should Alibaba sell tickets — or own the travel decision?</p><div class="sc-tags"><span class="sc-tag">Decision Layer</span><span class="sc-tag">Cross-service</span><span class="sc-tag">Travel Intelligence</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/alibaba/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Shopping / Search</div><h3>Torob</h3><p class="sc-decision">Should Torob remain the best place to find a price — or become the best place to make a decision?</p><div class="sc-tags"><span class="sc-tag">Price Discovery</span><span class="sc-tag">Decision Graph</span><span class="sc-tag">AI Search Risk</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/torob/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Beauty / Commerce</div><h3>Khanoumi</h3><p class="sc-decision">Is the biggest challenge more products — or helping customers decide?</p><div class="sc-tags"><span class="sc-tag">Choice Complexity</span><span class="sc-tag">Beauty Intelligence</span><span class="sc-tag">Review Asset</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/khanoumi/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">InsurTech</div><h3>Azki</h3><p class="sc-decision">Should Azki sell insurance — or help people understand their risks?</p><div class="sc-tags"><span class="sc-tag">Risk Intelligence</span><span class="sc-tag">Coverage Gap</span><span class="sc-tag">Financial Ecosystem</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/azki/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Media / VOD</div><h3>Filimo</h3><p class="sc-decision">Is the real asset content — or the demand map of Iranian digital entertainment?</p><div class="sc-tags"><span class="sc-tag">Content Economics</span><span class="sc-tag">Attention</span><span class="sc-tag">Churn</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/filimo/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Media / Creator Economy</div><h3>Aparat</h3><p class="sc-decision">To win, should Aparat be a better Iranian YouTube — or the best Persian content intelligence system?</p><div class="sc-tags"><span class="sc-tag">Attention Graph</span><span class="sc-tag">Creator Economy</span><span class="sc-tag">Iran-native Moat</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/aparat/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Digital Platform</div><h3>Titana</h3><p class="sc-decision">Is Titana building a marketplace — or accidentally building an intelligence layer?</p><div class="sc-tags"><span class="sc-tag">Matching</span><span class="sc-tag">Trust</span><span class="sc-tag">Transaction Layer</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/titana/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Behavioral Protocol</div><h3>XP Protocol</h3><p class="sc-decision">Can a non-tradable behavioral reputation system create real economic value?</p><div class="sc-tags"><span class="sc-tag">Effort Economy</span><span class="sc-tag">Attestation</span><span class="sc-tag">Portable Credibility</span></div><div class="sc-unlocked"><span>🔓</span>Public Intelligence</div><a href="/cases/xp/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+<div class="sc-box"><div class="sc-industry">Beauty / Skincare</div><h3>FreshFace</h3><p class="sc-decision">Can a skincare platform bypass direct-to-consumer and win through salon distribution?</p><div class="sc-tags"><span class="sc-tag">B2B2C</span><span class="sc-tag">SkinScore</span><span class="sc-tag">Gen Z</span><span class="sc-tag">Market Entry</span></div><div class="sc-coming"><span>⏳</span>In Progress</div><a href="/cases/freshface/" class="btn btn-ghost" style="font-size:.72rem;padding:.35rem .8rem;width:100%;justify-content:center">Explore XPMI Case →</a></div>
+
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<div class="divider"></div>
+
+<!-- PRODUCT INTELLIGENCE REQUEST -->
+<section id="analyze">
+<div class="wrap">
+<h2>What Should XPMI Analyze Next?</h2>
+<p class="sub">Have a market, industry, business model or company you'd like XPMI to stress-test?</p>
+<form class="pi-form" onsubmit="submitPI(event)">
+<div class="pi-row">
+<select name="model" class="cta-input" required>
+<option value="" disabled selected>Business Model</option>
+<option>Marketplace</option><option>Fintech</option><option>SaaS</option>
+<option>Advertising</option><option>Subscription</option><option>Creator Economy</option>
+<option>B2B2C</option><option>Platform</option><option>Transaction</option>
+<option>Data / Intelligence</option><option>Other</option>
+</select>
+<select name="industry" class="cta-input" required>
+<option value="" disabled selected>Industry</option>
+<option>Fintech</option><option>Commerce</option><option>Beauty</option>
+<option>Media</option><option>Health</option><option>Travel</option>
+<option>Mobility</option><option>Education</option><option>Real Estate</option>
+<option>Food</option><option>Logistics</option><option>AI</option><option>Other</option>
+</select>
+</div>
+<input type="text" name="company" placeholder="Company / Market name" class="cta-input" dir="ltr">
+<input type="text" name="question" placeholder="Your strategic question (optional)" class="cta-input" dir="ltr">
+<button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Request XPMI Intelligence</button>
+<p style="font-size:.72rem;color:var(--text-3);text-align:center;margin-top:.25rem">Selected requests may receive a complimentary initial XPMI analysis.</p>
+</form>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- NOT REPORT -->
+<section id="difference">
+<div class="wrap">
+<h2>XPMI is not another AI report.</h2>
+<div class="not-grid">
+<ul class="not-list">
+<li><span class="x">✕</span> Generic AI analysis</li>
+<li><span class="x">✕</span> SWOT generator</li>
+<li><span class="x">✕</span> Market report</li>
+<li><span class="x">✕</span> Chatbot</li>
+<li><span class="x">✕</span> Consulting deck filled with assumptions</li>
+</ul>
+<div class="instead"><h3>Decision Intelligence.</h3><p>Reality → Risk → Future → Capability → Execution</p></div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- COLLAB -->
+<section class="collab" id="collab">
+<div class="wrap">
+<h2>How XPMI works with organizations</h2>
+<div class="collab-grid">
+<div class="collab-card"><div class="cn">01</div><h3>Direct Engagement</h3><p>A company brings a real decision into XPMI. One question. One stress test. One executable answer.</p></div>
+<div class="collab-card"><div class="cn">02</div><h3>Strategic Collaboration</h3><p>XPMI sits alongside a consulting team or venture builder to add an intelligence layer.</p></div>
+<div class="collab-card"><div class="cn">03</div><h3>Intelligence Layer</h3><p>XPMI becomes an embedded part of a partner's strategic service — Powered by XPMI.</p></div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- SESSIONS -->
+<section id="process">
+<div class="wrap">
+<h2>From Question to Decision</h2>
+<div class="sessions-track">
+<div class="sess"><div class="sess-dot"></div><div class="sess-num">Session 01</div><h3>Discovery</h3><p>What decision are you facing?</p></div>
+<div class="sess"><div class="sess-dot"></div><div class="sess-num">Session 02</div><h3>Problem Definition</h3><p>What makes this decision difficult?</p></div>
+<div class="sess"><div class="sess-dot"></div><div class="sess-num">Session 03</div><h3>Intelligence</h3><p>XPMI stress-tests the decision.</p></div>
+<div class="sess"><div class="sess-dot"></div><div class="sess-num">Session 04</div><h3>Decision Session</h3><p>What should you do next?</p></div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="contact">
+<h2>You don't need more information.<br>You need to know what information<br>changes the decision.</h2>
+<p class="sub-fa">اگر یک تصمیم مهم پیش روی شرکتتان است:</p>
+<form class="cta-form" onsubmit="submitForm(event)">
+<input type="text" name="name" placeholder="نام و نام خانوادگی" required class="cta-input fa">
+<input type="text" name="company" placeholder="نام شرکت" required class="cta-input fa">
+<input type="text" name="role" placeholder="سِمَت شما" class="cta-input fa">
+<input type="tel" name="phone" placeholder="شماره تماس" required class="cta-input" dir="ltr">
+<input type="email" name="email" placeholder="ایمیل" class="cta-input" dir="ltr">
+<select name="time" class="cta-input fa" required>
+<option value="" disabled selected>بازه زمانی مناسب برای تماس</option>
+<option value="morning">صبح (۹–۱۲)</option>
+<option value="afternoon">بعدازظهر (۱۲–۱۷)</option>
+<option value="evening">عصر (۱۷–۲۱)</option>
+</select>
+<textarea name="decision" placeholder="تصمیمی که در حال بررسی آن هستید (اختیاری)" class="cta-input fa" rows="3"></textarea>
+<button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:.9rem">Start a Strategic Conversation</button>
+</form>
+<p class="final-badge">Confidential · Founder-led · Strategic Intelligence Service</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="wrap">
+<div class="logo">XPMI</div>
+<p>Strategic Intelligence for High-Stakes Decisions</p>
+<p>Reality. Risk. Future. Capability. Execution.</p>
+<div class="footer-links">
+<a href="https://xp-knowledge-base.vercel.app/" target="_blank">XP Protocol</a>
+<span>·</span>
+<a href="https://freshface.ir" target="_blank">FreshFace</a>
+<span>·</span>
+<span>Founded by <a href="https://www.linkedin.com/in/ehsanjahangiri/" target="_blank">Ehsan Jahangiri</a></span>
+</div>
+<p class="tagline">Behind the Risk.</p>
+</div>
+</footer>
+
+<script>
+function submitPI(e){e.preventDefault();const d=Object.fromEntries(new FormData(e.target));console.log('XPMI PI:',JSON.stringify(d));e.target.outerHTML='<p style="text-align:center;color:var(--green);font-size:.9rem;margin:2rem 0">✓ Request received. We\'ll review and reach out if selected.</p>';}
+function submitForm(e){e.preventDefault();const d=Object.fromEntries(new FormData(e.target));console.log('XPMI Lead:',JSON.stringify(d));e.target.outerHTML='<div class="form-success">✓ درخواست شما ثبت شد — به‌زودی با شما تماس می‌گیریم.</div>';}
+</script>
+</body>
+</html>
