@@ -5,6 +5,58 @@ import matter from "gray-matter";
 const CASES_DIR = path.join(process.cwd(), "content", "cases");
 const MICRO_DIR = path.join(process.cwd(), "content", "micro-intel");
 
+export const PROTECTED_SLUGS = [
+  "alibaba",
+  "aparat",
+  "digikala",
+  "digipay",
+  "divar",
+  "filimo",
+  "karafs",
+  "khanoumi",
+  "torob",
+  "tap30",
+  "titana",
+];
+
+export function isProtectedSlug(slug: string): boolean {
+  return PROTECTED_SLUGS.includes(slug);
+}
+
+export function getPublicCases(): CaseData[] {
+  return getAllCases().filter((c) => !isProtectedSlug(c.slug));
+}
+
+export function getPublicCaseIndex() {
+  return getPublicCases().map((c) => ({
+    slug: c.slug,
+    company: c.frontmatter.company,
+    company_en: c.frontmatter.company_en,
+    case_type: c.frontmatter.case_type,
+    evidence_level: c.frontmatter.evidence_level,
+    market: c.frontmatter.market,
+    question: c.micro?.question || "",
+  }));
+}
+
+export function getAdjacentPublicCases(currentSlug: string) {
+  const pub = getPublicCases();
+  const i = pub.findIndex((c) => c.slug === currentSlug);
+  return {
+    prev: i > 0 ? { slug: pub[i - 1].slug, company: pub[i - 1].frontmatter.company } : null,
+    next: i < pub.length - 1 ? { slug: pub[i + 1].slug, company: pub[i + 1].frontmatter.company } : null,
+  };
+}
+
+export function getAdjacentProtectedCases(currentSlug: string) {
+  const prot = getAllCases().filter((c) => isProtectedSlug(c.slug));
+  const i = prot.findIndex((c) => c.slug === currentSlug);
+  return {
+    prev: i > 0 ? { slug: prot[i - 1].slug, company: prot[i - 1].frontmatter.company } : null,
+    next: i < prot.length - 1 ? { slug: prot[i + 1].slug, company: prot[i + 1].frontmatter.company } : null,
+  };
+}
+
 export interface CaseFrontmatter {
   title: string;
   company: string;

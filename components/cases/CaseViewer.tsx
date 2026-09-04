@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -22,77 +21,6 @@ const md = {
       : <code className="md-code" {...p} />,
 };
 
-/* ─── Intelligence Gate ─── */
-function Gate({ onUnlock, company }: { onUnlock: () => void; company: string }) {
-  const [sent, setSent] = useState(false);
-  const [otp, setOtp] = useState("");
-
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-    const d = Object.fromEntries(new FormData(e.target as HTMLFormElement));
-    console.log("XPMI Identity:", JSON.stringify(d));
-    setSent(true);
-  }
-
-  function verify(e: React.FormEvent) {
-    e.preventDefault();
-    console.log("XPMI OTP verified:", otp);
-    onUnlock();
-  }
-
-  return (
-    <div className="gate">
-      <div className="gate-eyebrow">Intelligence Gate</div>
-      <h2 className="gate-title">Continue the Intelligence</h2>
-      <p className="gate-sub">
-        سیگنال را دیدید. حالا ببینید XPMI با آن چه می‌کند.
-      </p>
-      <p className="gate-desc">
-        تحلیل کامل {company} شامل Reality، Risk Analysis، Future Scenarios،
-        Capability Gaps، Execution Architecture و Strategic Decision است.
-      </p>
-
-      {!sent ? (
-        <form className="gate-form" onSubmit={submit}>
-          <div className="gate-row">
-            <input name="firstName" placeholder="نام" required className="gate-input" />
-            <input name="lastName" placeholder="نام خانوادگی" required className="gate-input" />
-          </div>
-          <input name="mobile" type="tel" placeholder="شماره موبایل" required className="gate-input" dir="ltr" />
-          <input name="linkedin" type="url" placeholder="LinkedIn URL (اختیاری)" className="gate-input" dir="ltr" />
-          <div className="gate-row">
-            <input name="company" placeholder="شرکت (اختیاری)" className="gate-input" />
-            <input name="role" placeholder="سِمَت (اختیاری)" className="gate-input" />
-          </div>
-          <button type="submit" className="btn btn-primary gate-btn">
-            دریافت کد تأیید
-          </button>
-          <p className="gate-note">بدون رمز عبور · بدون ثبت‌نام · فقط تأیید شماره</p>
-        </form>
-      ) : (
-        <form className="gate-form" onSubmit={verify}>
-          <p className="gate-otp-msg">کد تأیید به شماره شما ارسال شد.</p>
-          <input
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            placeholder="کد ۶ رقمی"
-            maxLength={6}
-            required
-            className="gate-input gate-otp"
-            dir="ltr"
-          />
-          <button type="submit" className="btn btn-primary gate-btn">
-            Unlock Full Intelligence
-          </button>
-          <button type="button" className="gate-back" onClick={() => setSent(false)}>
-            ← تغییر شماره
-          </button>
-        </form>
-      )}
-    </div>
-  );
-}
-
 /* ─── Main ─── */
 export default function CaseViewer({
   caseData, allCases, prev, next,
@@ -102,7 +30,6 @@ export default function CaseViewer({
   prev: { slug: string; company: string } | null;
   next: { slug: string; company: string } | null;
 }) {
-  const [unlocked, setUnlocked] = useState(false);
   const fm = caseData.frontmatter;
   const micro = caseData.micro;
 
@@ -125,7 +52,7 @@ export default function CaseViewer({
           </div>
         </header>
 
-        {/* MICRO-INTEL — always free */}
+        {/* MICRO-INTEL */}
         {micro && (
           <section className="micro-block">
             <div className="micro-label">MICRO-INTEL</div>
@@ -153,27 +80,21 @@ export default function CaseViewer({
           </section>
         )}
 
-        {/* GATE or FULL CASE */}
-        {!unlocked ? (
-          <Gate onUnlock={() => setUnlocked(true)} company={fm.company} />
-        ) : (
-          <>
-            <div className="pipeline">
-              {["Reality", "Risk", "Future", "Capability", "Execution", "Decision"].map((s, i) => (
-                <span key={s}>
-                  {i > 0 && <span className="pip-arrow">→</span>}
-                  <span className="pip-step active">{s}</span>
-                </span>
-              ))}
-            </div>
-            <div className="divider" />
-            <article className="case-content">
-              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} components={md}>
-                {caseData.content}
-              </ReactMarkdown>
-            </article>
-          </>
-        )}
+        {/* FULL CASE — rendered directly, protection is at server/middleware layer */}
+        <div className="pipeline">
+          {["Reality", "Risk", "Future", "Capability", "Execution", "Decision"].map((s, i) => (
+            <span key={s}>
+              {i > 0 && <span className="pip-arrow">→</span>}
+              <span className="pip-step active">{s}</span>
+            </span>
+          ))}
+        </div>
+        <div className="divider" />
+        <article className="case-content">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} components={md}>
+            {caseData.content}
+          </ReactMarkdown>
+        </article>
 
         <div className="divider" />
 

@@ -1,5 +1,12 @@
 import { notFound } from "next/navigation";
-import { getCaseBySlug, getAllCaseSlugs, getAllCases, getAdjacentCases } from "@/lib/cases";
+import {
+  getCaseBySlug,
+  getAllCaseSlugs,
+  getPublicCases,
+  getAdjacentPublicCases,
+  getAdjacentProtectedCases,
+  isProtectedSlug,
+} from "@/lib/cases";
 import CaseViewer from "@/components/cases/CaseViewer";
 import type { Metadata } from "next";
 
@@ -21,8 +28,21 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
   const caseData = getCaseBySlug(slug);
   if (!caseData) notFound();
 
-  const allCases = getAllCases().map((c) => ({ slug: c.slug, company: c.frontmatter.company }));
-  const { prev, next } = getAdjacentCases(slug);
+  const isProtected = isProtectedSlug(slug);
 
-  return <CaseViewer caseData={caseData} allCases={allCases} prev={prev} next={next} />;
+  // For public cases: only show public cases in nav
+  // For protected cases: only show protected cases in nav
+  // This prevents leaking protected slugs to public visitors
+  // and gives authenticated users navigation within the protected library
+  const navCases = isProtected
+    ? (await import("@/lib/cases")).getAllCases()
+        .filter((c) => isProtectedSlug(c.slug))
+        .map((c) => ({ slug: c.slug, company: c.frontmatter.company }))
+    : getPublicCases().map((c) => ({ slug: c.slug, company: c.frontmatter.company }));
+
+  const { prev, next } = isProtected
+    ? getAdjacentProtectedCases(slug)
+    : getAdjacentPublicCases(slug);
+
+  return <CaseViewer caseData={caseData} allCases={navCases} prev={prev} next={next} />;
 }

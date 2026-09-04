@@ -1,9 +1,9 @@
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
-import { getCaseIndex } from "@/lib/cases";
+import { getPublicCaseIndex } from "@/lib/cases";
 
 export default function Landing() {
-  const cases = getCaseIndex();
+  const cases = getPublicCaseIndex();
 
   return (
     <div className="landing">
@@ -76,7 +76,7 @@ export default function Landing() {
       {/* CASE LIBRARY */}
       <section className="l-section" id="cases">
         <div className="l-wrap">
-          <h2 className="l-h2">{cases.length} Strategic Intelligence Cases</h2>
+          <h2 className="l-h2">Strategic Intelligence Cases</h2>
           <div className="case-grid">
             {cases.map((c) => (
               <Link href={`/cases/${c.slug}`} key={c.slug} className="case-card">
